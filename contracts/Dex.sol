@@ -10,7 +10,7 @@ bytes32 now our ticker can be 32 charaters long.
 .
 */
 
-contract MyDex {
+contract Dex {
 
 
     /// @dev Limite Market sides

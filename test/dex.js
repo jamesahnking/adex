@@ -1,9 +1,10 @@
 const { expectRevert } = require('@openzeppelin/test-helpers');
 const Dai = artifacts.require('mocks/MyDai.sol');
 const Bat = artifacts.require('mocks/MyBat.sol');
-const Usdc = artifacts.require('mocks/MyUsdc.sol');
+// const Ada = artifacts.require('mocks/MyUsdc.sol');
+const Ada = artifacts.require('mocks/MyAda.sol');
 const Smt = artifacts.require('mocks/MySmt.sol');
-const Dex = artifacts.require('MyDex.sol');
+const Dex = artifacts.require('Dex.sol');
 
 
 // define Tx Sides
@@ -16,18 +17,18 @@ const SIDE = {
 // define test block 
 // will return an array of contracts
 contract('Dex', (accounts) => {
-    let dai, bat, usdc, smt, dex;
+    let dai, bat, ada, smt, dex;
     // define participants
     const[trader1, trader2] = [accounts[1], accounts[2]];
     // define the ticker - map to ascii version
-    const [DAI, BAT, USDC, SMT] = ['DAI','BAT', 'USDC', 'SMT'].map(ticker => web3.utils.fromAscii(ticker))
+    const [DAI, BAT, ADA, SMT] = ['DAI','BAT', 'ADA', 'SMT'].map(ticker => web3.utils.fromAscii(ticker))
     // define the ticker as 
     beforeEach(async () => {
     // contracts destructured into the defined vars
-       ([dai,bat,usdc,smt] = await Promise.all([
+       ([dai,bat,ada,smt] = await Promise.all([
             Dai.new(),
             Bat.new(),
-            Usdc.new(),
+            Ada.new(),
             Smt.new()
         ]));
         
@@ -37,7 +38,7 @@ contract('Dex', (accounts) => {
         await Promise.all([
             dex.addToken(DAI, dai.address),
             dex.addToken(BAT, bat.address),
-            dex.addToken(USDC, usdc.address),
+            dex.addToken(ADA, ada.address),
             dex.addToken(SMT, smt.address)
         ]);
 
@@ -56,13 +57,13 @@ contract('Dex', (accounts) => {
         // allocate token and amount for all currencies to Trader1
         await seedTokenBalance(dai, trader1);
         await seedTokenBalance(bat, trader1);
-        await seedTokenBalance(usdc, trader1);
+        await seedTokenBalance(ada, trader1);
         await seedTokenBalance(smt, trader1);
 
         // allocate token and amount for all currencies to Trader1
         await seedTokenBalance(dai, trader2);
         await seedTokenBalance(bat, trader2);
-        await seedTokenBalance(usdc, trader2);
+        await seedTokenBalance(ada, trader2);
         await seedTokenBalance(smt, trader2);
     });
 
