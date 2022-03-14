@@ -86,7 +86,7 @@ contract Dex {
     }
 
     /// @dev WALLET 
-    function deposit(uint256 amount, bytes32 ticker) tokenExist(ticker) external {
+    function deposit(bytes32 ticker, uint256 amount) tokenExist(ticker) external {
         IERC20(tokens[ticker].tokenAddress).transferFrom( // interface
             msg.sender, // from 
             address(this), // to 
@@ -97,7 +97,7 @@ contract Dex {
         traderBalances[msg.sender][ticker] += amount; 
     }
 
-    function withdraw( uint256 amount, bytes32 ticker) tokenExist(ticker) external {
+    function withdraw(bytes32 ticker, uint256 amount) tokenExist(ticker) external {
         require(traderBalances[msg.sender][ticker] >= amount, "balance too low"); // trader must have enough funds
         traderBalances[msg.sender][ticker] -= amount; // safemath
 
@@ -108,7 +108,7 @@ contract Dex {
     }
 
     /// @dev LIMIT ORDERS 
-    function createLimitOrder(uint256 amount, bytes32 ticker, uint256 price, Side side) tokenExist(ticker) daiNotAllowed(ticker) external {      
+    function createLimitOrder(bytes32 ticker, uint256 amount, uint256 price, Side side) tokenExist(ticker) daiNotAllowed(ticker) external {      
         if(side == Side.SELL) {
          require(traderBalances[msg.sender][ticker] >= amount,"token balance too low"
             ); // trader must have enough funds to sell
@@ -152,7 +152,7 @@ contract Dex {
     // if Im creating a market buy order I will need to get a list of sell orders
     // if Im creating a market sell order Il will need to get a list of all of the buy orders
     // Market orders can and will be matched against many different limit orders[market market order => limit sell 
-    function createMarketOrder(uint256 amount, bytes32 ticker, Side side) tokenExist(ticker) daiNotAllowed(ticker) external {
+    function createMarketOrder(bytes32 ticker, uint256 amount, Side side) tokenExist(ticker) daiNotAllowed(ticker) external {
         if(side == Side.SELL) {
             require(traderBalances[msg.sender][ticker] >= amount,
             "token balance too low");
