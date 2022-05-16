@@ -13,7 +13,7 @@ bytes32 now our ticker can be 32 charaters long.
 contract Dex {
 
 
-    /// @dev Limite Market sides
+    /// @dev Limit Market sides
     enum Side {
         BUY,
         SELL
@@ -62,7 +62,7 @@ contract Dex {
         admin = msg.sender; // creator of the smart contract
     }
 
-    // returns list of orders 
+    // returns list of orders and their side
     function getOrders(bytes32 ticker, Side side) external view returns(Order[] memory) {
         return orderBook[ticker][uint256(side)];
     }
@@ -140,7 +140,7 @@ contract Dex {
         if(side == Side.SELL && orders[i - 1].price < orders[i].price){
             break; 
         }   // if the order isnt then swap till they are price-time aligned
-            Order memory order = orders[i - 1]; // add previous order to temp memory 
+            Order memory order = orders[i - 1]; // add previous order to temporary memory 
             orders[i - 1] = orders[i]; // swap prev order with current
             orders[i] = order; // swap current with previous
             i--; //keep decrementing until we reach a break;
