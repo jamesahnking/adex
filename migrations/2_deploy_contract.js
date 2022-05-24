@@ -30,6 +30,10 @@ const Dex = artifacts.require('Dex.sol');
     await dex.addToken(DAI, dai.address);
     await dex.addToken(BAT, bat.address);
     await dex.addToken(ADA, ada.address);
+
+
+
+
     await dex.addToken(SMT, smt.address);
     
   
@@ -133,6 +137,23 @@ await increaseTime(1);
 
 await dex.createLimitOrder( ADA,1200, 6, SIDE.BUY, {from: trader1});
 await dex.createMarketOrder( ADA, 1200, SIDE.SELL, {from: trader2});
+await increaseTime(1);
+
+await dex.createLimitOrder( SMT,3500, 26, SIDE.BUY, {from: trader1});
+await dex.createMarketOrder( SMT, 3500, SIDE.SELL, {from: trader2});
+await increaseTime(1);
+
+await dex.createLimitOrder( SMT, 500, 4, SIDE.BUY, {from: trader1});
+await dex.createMarketOrder(SMT, 500, SIDE.SELL, {from: trader2});
+await increaseTime(1);
+
+await dex.createLimitOrder( SMT, 1800, 60, SIDE.BUY, {from: trader1});
+await dex.createMarketOrder( SMT, 1800, SIDE.SELL, {from: trader2});
+await increaseTime(1);
+
+await dex.createLimitOrder( SMT,600, 35, SIDE.BUY, {from: trader1});
+await dex.createMarketOrder( SMT, 600, SIDE.SELL, {from: trader2});
+await increaseTime(1);
 
 
 // Orders
